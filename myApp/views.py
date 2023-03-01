@@ -18,3 +18,18 @@ class AttendanceListView(ListView):
         start_date = date.today() - timedelta(days=7)
         end_date = date.today()
         return Attendance.objects.filter(date__range=[start_date, end_date]).order_by('-date')
+    
+
+@method_decorator(login_required, name='dispatch')
+class StudentDetailView(DetailView):
+    model = Student
+    template_name = 'student_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        student = self.get_object()
+        start_date = date.today() - timedelta(days=7)
+        end_date = date.today()
+        attendances = Attendance.objects.filter(student=student, date__range=[start_date, end_date]).order_by('-date')
+        context['attendances'] = attendances
+        return context
