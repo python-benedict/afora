@@ -12,7 +12,7 @@ from .models import Student, Attendance
 
 class AttendanceListView(ListView):
     model = Attendance
-    template_name = 'index.html'
+    template_name = 'myApp/index.html'
 
     def get_queryset(self):
         start_date = date.today() - timedelta(days=7)
