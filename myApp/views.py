@@ -48,3 +48,10 @@ class AttendanceUpdateView(UpdateView):
     fields = ['student', 'date', 'present']
     success_url = reverse_lazy('attendance_list')
     template_name = 'attendance_form.html'
+    
+
+@method_decorator(staff_member_required, name='dispatch')
+class AttendanceDeleteView(DeleteView):
+    model = Attendance
+    success_url = reverse_lazy('attendance_list')
+    template_name = 'attendance_confirm_delete.html'
