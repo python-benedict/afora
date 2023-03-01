@@ -33,3 +33,10 @@ class StudentDetailView(DetailView):
         attendances = Attendance.objects.filter(student=student, date__range=[start_date, end_date]).order_by('-date')
         context['attendances'] = attendances
         return context
+
+@method_decorator(staff_member_required, name='dispatch')
+class AttendanceCreateView(CreateView):
+    model = Attendance
+    fields = ['student', 'date', 'present']
+    success_url = reverse_lazy('attendance_list')
+    template_name = 'attendance_form.html'
